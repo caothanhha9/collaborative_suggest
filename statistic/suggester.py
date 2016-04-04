@@ -1,5 +1,5 @@
-import similarity_estimator
-import knn
+from statistic import similarity_estimator
+from statistic import knn
 import numpy as np
 
 

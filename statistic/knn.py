@@ -2,7 +2,7 @@ import pickle
 
 import operator
 
-import similarity_estimator
+from statistic import similarity_estimator
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 import os

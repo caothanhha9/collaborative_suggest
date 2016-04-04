@@ -1,6 +1,6 @@
 import numpy as np
-from itertools import imap
-from itertools import izip
+# from itertools import imap
+# from itertools import izip
 # from scipy.stats.stats import pearsonr
 
 
