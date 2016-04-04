@@ -1,5 +1,6 @@
 import numpy as np
 from itertools import imap
+from itertools import izip
 # from scipy.stats.stats import pearsonr
 
 
@@ -24,7 +25,7 @@ def pearsonr(x, y):
     sum_y = float(sum(y))
     sum_x_sq = sum(map(lambda x: pow(x, 2), x))
     sum_y_sq = sum(map(lambda x: pow(x, 2), y))
-    psum = sum(imap(lambda x, y: x * y, x, y))
+    psum = sum(map(lambda x, y: x * y, x, y))  # itertools.imap
     num = psum - (sum_x * sum_y/n)
     den = pow((sum_x_sq - pow(sum_x, 2) / n) * (sum_y_sq - pow(sum_y, 2) / n), 0.5)
     if den == 0:
