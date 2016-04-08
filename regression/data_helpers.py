@@ -71,6 +71,6 @@ def load_test_data():
 
 
 def load_predict_data():
-    test_data = [[5.0, 4.0, 5.0], [1.0, 1.0, 2.0]]
+    test_data = [[5.0, 4.0, 5.0], [1.0, 1.0, 2.0], [2.0, 2.0, 1.0]]
     test_data_np = np.array(test_data)
     return test_data_np

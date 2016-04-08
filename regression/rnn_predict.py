@@ -69,7 +69,7 @@ class Predict(object):
                 saver.restore(sess, abs_model_checkpoint_path)
                 test_len = len(input_data)
                 test_data, _ = data_helpers.get_random_batch(input_data, label_data, test_len)
-                test_data = test_data.reshape((batch_size, n_steps, n_input))
+                test_data = test_data.reshape((test_len, n_steps, n_input))
                 # test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
                 # test_label = mnist.test.labels[:test_len]
                 feed_dict = {new_rnn.x: test_data,
