@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>webserver.py test</title>
+    <!-- Define my own favicon.ico using PNG format. -->
+    <!-- Works in FF and Chrome. -->
+    <script src="static/js/jquery-1.9.0.js"></script>
+    <script src="static/js/main.js"></script>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="bgcolor1">
+        <table width="100%">
+            <tbody>
+            <tr valign="middle">
+                <td style="text-align: left">
+                    <h2>Simple Node Management</h2>
+                </td>
+                <td style="text-align: right; font-size: 80%">
+                    <div style="position: absolute; text-align: left; right: 18px; top: 30px">
+                        About Us
+                        <br>
+                        Careers
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- BODY -->
+
+
+    <p>Please fill out the field to train or test</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <!--<div id="baseDiv">Click Me</div>-->
+    <div id="popUpDiv">
+        <!--<select id="popupSelect">-->
+        <!--<option value="First">First</option>-->
+        <!--<option value="Second">Second</option>-->
+        <!--<option value="Third">Third</option>-->
+        <!--</select>-->
+        <table>
+            <tbody id="productNameListBox">
+            </tbody>
+        </table>
+    </div>
+    <fieldset>
+        <legend>Test a node</legend>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <form method="post">
+                        <p>Enter user_id: <input type="text" name="user_id" id="txtUserId"></p>
+                        <p>Enter item_id: <input type="text" name="item_id" id="txtItemId"></p>
+                        <input type="button" value="Test" name="test" id="buttonTest">
+                    </form>
+                </td>
+                <td id="txtResult">
+                </td>
+            </tr>
+            <!--<tr>-->
+            <!--<td id="txtFetchedTitles"></td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+        <table>
+            <tbody id="txtFetchedTitles">
+
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+
+<!-- FOOTER -->
+<div class="footer_outer bgcolor1">
+    <div id="myfooter">
+        <div style="color: red">
+            <p>WARNING: Unobtrusive Javascript not working!</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
