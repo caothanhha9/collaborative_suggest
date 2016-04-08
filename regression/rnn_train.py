@@ -36,7 +36,7 @@ class Train(object):
         new_rnn = RNN(n_steps=n_steps, n_input=n_input,
                       n_hidden=self.n_hidden, n_classes=n_classes)
         optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(new_rnn.cost) # Adam Optimizer
-        # global_step = tf.Variable(0, name="global_step", trainable=False)
+        global_step = tf.Variable(0, name="global_step", trainable=False)
         # optimizer = tf.train.AdamOptimizer(self.learning_rate)
         # grads_and_vars = optimizer.compute_gradients(new_rnn.cost)
         # train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
@@ -51,30 +51,53 @@ class Train(object):
         init = tf.initialize_all_variables()
         with tf.Session() as sess:
             sess.run(init)
-            step = 1
-            # Keep training until reach max iterations
-            while step * batch_size < training_iters:
-                # batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-                batch_xs, batch_ys = data_helpers.get_random_batch(input_data, label_data, batch_size)
-                # Reshape data to get 28 seq of 28 elements
-                batch_xs = batch_xs.reshape((batch_size, n_steps, n_input))
-                # Fit training using batch data
-                sess.run(optimizer, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
-                                               new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+
+            def train_step(_x_batch, _y_batch):
+                feed_dict = {new_rnn.x: _x_batch, new_rnn.y: _y_batch,
+                             new_rnn.istate: np.zeros((batch_size, 2*n_hidden))}
+                _, step = sess.run([optimizer, global_step], feed_dict=feed_dict)
+
                 if step % display_step == 0:
                     # Calculate batch accuracy
-                    acc = sess.run(new_rnn.accuracy, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
-                                                        new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+                    acc = sess.run(new_rnn.accuracy, feed_dict=feed_dict)
                     # Calculate batch loss
-                    loss = sess.run(new_rnn.cost, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
-                                                     new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+                    loss = sess.run(new_rnn.cost, feed_dict=feed_dict)
                     print "Iter " + str(step*batch_size) + ", Minibatch Loss= " + "{:.6f}".format(loss) + \
                           ", Training Accuracy= " + "{:.5f}".format(acc)
                 if step % checkpoint_step == 0:
                     path = saver.save(sess, checkpoint_prefix, global_step=step)
                     print("Saved model checkpoint to {}\n".format(path))
-                step += 1
-            print "Optimization Finished!"
+            batches = data_helpers.batch_gen(zip(input_data, label_data), 2)
+            for batch in batches:
+                x_batch, y_batch = zip(*batch)
+                print('-' * 50)
+                print(x_batch)
+                print(y_batch)
+
+            # step = 1
+            # # Keep training until reach max iterations
+            # while step * batch_size < training_iters:
+            #     # batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            #     batch_xs, batch_ys = data_helpers.get_random_batch(input_data, label_data, batch_size)
+            #     # Reshape data to get 28 seq of 28 elements
+            #     batch_xs = batch_xs.reshape((batch_size, n_steps, n_input))
+            #     # Fit training using batch data
+            #     sess.run(optimizer, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
+            #                                    new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+            #     if step % display_step == 0:
+            #         # Calculate batch accuracy
+            #         acc = sess.run(new_rnn.accuracy, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
+            #                                             new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+            #         # Calculate batch loss
+            #         loss = sess.run(new_rnn.cost, feed_dict={new_rnn.x: batch_xs, new_rnn.y: batch_ys,
+            #                                          new_rnn.istate: np.zeros((batch_size, 2*n_hidden))})
+            #         print "Iter " + str(step*batch_size) + ", Minibatch Loss= " + "{:.6f}".format(loss) + \
+            #               ", Training Accuracy= " + "{:.5f}".format(acc)
+            #     if step % checkpoint_step == 0:
+            #         path = saver.save(sess, checkpoint_prefix, global_step=step)
+            #         print("Saved model checkpoint to {}\n".format(path))
+            #     step += 1
+            # print "Optimization Finished!"
 
 new_train = Train(learning_rate=0.001, n_hidden=12, batch_size=2, training_iters=10000, out_dir='models',
                   checkpoint_step=1000)
