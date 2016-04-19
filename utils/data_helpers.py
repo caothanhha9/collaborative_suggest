@@ -55,4 +55,4 @@ def plot_data(file_path):
             xs.append(feature_arr[0])
             ys.append(feature_arr[1])
             labels.append(label)
-        
+
