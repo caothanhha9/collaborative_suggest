@@ -54,7 +54,7 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 
 def start_server():
-    app.run(host='0.0.0.0', port='8585', processes=5)
+    app.run(host='0.0.0.0', port='8080', processes=5)
 
 
 @app.route('/')

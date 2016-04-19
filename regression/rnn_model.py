@@ -40,13 +40,16 @@ class RNN(object):
             'hidden': tf.Variable(tf.random_normal([n_hidden])),
             'out': tf.Variable(tf.random_normal([n_classes]))
         }
-        pred = gen_RNN(self.x, self.istate, weights, biases,
+        self.pred = gen_RNN(self.x, self.istate, weights, biases,
                        n_input, n_hidden, n_steps)
 
         # Define loss and optimizer
-        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(pred, self.y)) # Softmax loss
+        self.cost = tf.reduce_sum(tf.pow((self.pred - self.y), 2), 0) # Softmax loss
+        # self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.pred, self.y)) # Softmax loss
         # optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost) # Adam Optimizer
 
         # Evaluate model
-        correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(self.y,1))
-        self.accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+        # correct_pred = tf.equal(tf.argmax(pred,1), tf.argmax(self.y,1))
+        base_correct = tf.zeros(tf.shape(self.y), tf.int32)
+        self.correct_pred = tf.equal(tf.cast((tf.abs(self.pred - self.y) * 2), tf.int32), base_correct)
+        self.accuracy = tf.reduce_mean(tf.cast(self.correct_pred, "float"))

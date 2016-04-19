@@ -60,3 +60,17 @@ def load_data():
     input_data_np = np.array(input_data)
     target_np = np.array(target)
     return [input_data_np, target_np]
+
+
+def load_test_data():
+    test_data = [[5.0, 4.0, 5.0], [1.0, 1.0, 2.0]]
+    test_label = [[5.0], [1.0]]
+    test_data_np = np.array(test_data)
+    test_label_np = np.array(test_label)
+    return [test_data_np, test_label_np]
+
+
+def load_predict_data():
+    test_data = [[5.0, 4.0, 5.0], [1.0, 1.0, 2.0], [2.0, 2.0, 1.0]]
+    test_data_np = np.array(test_data)
+    return test_data_np
